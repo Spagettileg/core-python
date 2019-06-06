@@ -1,16 +1,14 @@
 from byotest import * 
 
+usd_coins = [100, 50, 20, 10, 5, 1]
+eur_coins = [100, 50, 20, 10, 5, 2, 1]
+
 # Function 1
-def get_change(amount): 
-    if amount == 0:
-        return []
-        
-    if amount in [100, 50, 20, 10, 5, 2, 1]:
-        return [amount]
+def get_change(amount, coins=eur_coins): 
         
     change = []
-    for coin in [100, 50, 20, 10, 5, 2, 1]:
-        if coin <= amount:   # Change is always going to be less, or in rare occasions, equal to amount spent
+    for coin in coins:
+        while coin <= amount:   # Change is always going to be less, or in rare occasions, equal to amount spent
             amount -= coin   # Required to ensure the code deducts the amount of the coin from what was sent into the vending machine  
             change.append(coin)
         
@@ -35,6 +33,12 @@ test_are_equal(get_change(3),[2,1])
 
 # Test 5 = Similar to Test 4. However, need to create a generic code and ensure correct change is given from valuie sent into machine.
 test_are_equal(get_change(7),[5,2])
+
+# Test 6 = Create a test to check where we require more than 1 of a perticular denomination of coin.
+test_are_equal(get_change(9),[5,2,2])
+
+# Test 7 = Override current coin denominations
+test_are_equal(get_change(35, usd_coins),[25,10])
 
 print("All tests pass!")
 
